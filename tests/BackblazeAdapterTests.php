@@ -149,4 +149,27 @@ class BackblazeAdapterTests extends PHPUnit_Framework_TestCase
         $result = $adapter->copy($this->file_mock->url(), 'something_new');
         $this->assertObjectHasAttribute('id', $result, 'something_new');
     }
+
+    /**
+     * @dataProvider  backblazeProvider
+     */
+    public function testDelete($adapter, $mock)
+    {
+        $this->fileSetUp();
+        $mock->deleteFile(["BucketName" => "my_bucket", "FileName" => "something"])->willReturn(true);
+        $result = $adapter->delete('something');
+        $this->assertTrue($result);
+    }
+
+
+    /**
+     * @dataProvider  backblazeProvider
+     */
+    public function testDeleteDir($adapter, $mock)
+    {
+        $this->fileSetUp();
+        $mock->deleteFile(["BucketName" => "my_bucket", "FileName" => "something"])->willReturn(true);
+        $result = $adapter->deleteDir('something');
+        $this->assertTrue($result);
+    }
 }
