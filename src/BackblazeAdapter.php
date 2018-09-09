@@ -256,4 +256,17 @@ class BackblazeAdapter extends AbstractAdapter {
 
         return $normalized;
     }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    public function getUrl($path)
+    {
+        $config = collect(config('filesystems.disks'));
+
+        if ($disk = $config->where('bucketName', $this->bucketName)->first()) {
+            return data_get($disk, 'url') . $path;
+        }
+    }
 }
